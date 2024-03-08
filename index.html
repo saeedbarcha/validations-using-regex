@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration or Sign Up form in HTML CSS | CodingLab</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2>Registration</h2>
+      <form id="myForm">
+        <div class="input-box">
+          <input
+            type="text"
+            placeholder="Enter your name"
+            name="Name"
+            id="name"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            name="Email"
+            id="email"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="text"
+            placeholder="Enter phone number"
+            name="Phone"
+            id="phone"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            placeholder="Enter password"
+            name="Password"
+            id="password"
+          />
+        </div>
+        <div class="input-box">
+          <input
+            type="password"
+            placeholder="Enter confirm password"
+            name="Confirm password"
+            id="cPassword"
+          />
+        </div>
+        <p id="validateMsg" class="error"></p>
+        <div id="submit" class="input-box button">
+          <input id="Submit" type="Submit" value="Register Now" />
+        </div>
+        <div class="text">
+          <h3>Already have an account? <a href="#">Login now</a></h3>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    document
+      .getElementById("myForm")
+      .addEventListener("submit", async function (event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+        try {
+          let name = document.getElementById("name").value;
+          let email = document.getElementById("email").value;
+          let phone = document.getElementById("phone").value;
+          let password = document.getElementById("password").value;
+          let cPassword = document.getElementById("cPassword").value;
+
+          const valiDateCont = document.getElementById("validateMsg");
+
+          function validMsgFunc(passVar, color, cPassword = "") {
+            if (cPassword !== "") {
+              valiDateCont.innerText = `${passVar.name} and ${cPassword.name} don't match`;
+            } else {
+              valiDateCont.innerText = `${passVar.name} is required`;
+            }
+            valiDateCont.style.color = color;
+          }
+
+          function validRegFunc(passVar, color) {
+            valiDateCont.innerText = passVar;
+            valiDateCont.style.color = color;
+          }
+
+          if (name === "") {
+            validMsgFunc({ name: "Name" }, "red");
+          } else if (email === "") {
+            validMsgFunc({ name: "Email" }, "red");
+          } else if (phone === "") {
+            validMsgFunc({ name: "Phone" }, "red");
+          } else if (password === "") {
+            validMsgFunc({ name: "Password" }, "red");
+          } else if (cPassword === "") {
+            validMsgFunc({ name: "Confirm Password" }, "red");
+          } else if (password !== cPassword) {
+            validMsgFunc({ name: "Password" }, "red", {
+              name: "Confirm Password",
+            });
+          } else {
+            const alphanumericRegex = /^[A-Za-z0-9]{5,12}$/;
+            const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
+            if (!alphanumericRegex.test(name)) {
+              validRegFunc(
+                "Name must be alphanumeric and between 5 to 12 characters",
+                "red"
+              );
+              return;
+            } else if (!emailRegex.test(email)) {
+              validRegFunc(
+                "Email should Follow this format (user@gmail.com)",
+                "red"
+              );
+              return;
+            } else if (!passwordRegex.test(password)) {
+              validRegFunc(
+                "password should contains uppercase, lowercase, number special character length should b/w 8 to 20",
+                "red"
+              );
+              return;
+            } else {
+              validRegFunc("Form submitted successfully", "green");
+            }
+
+            // If you want to submit the form, uncomment the following line
+            // document.getElementById("myForm").submit();
+          }
+        } catch (err) {
+          console.log("error......", err);
+        }
+      });
+  </script>
+</html>
+
+<!-- Regular Expressions - Form Validation Project
+Assignment Overview
+You are tasked with creating a form that includes several fields: username, password, email address, and phone number. Your objective is to validate each field using JavaScript and regular expressions to ensure the input matches the specified criteria. Detailed requirements for each field are provided below.
+1. Username Validation
+Criteria:
+Only contains alphanumeric characters (letters and numbers).
+Length: between 5 and 12 characters.
+Regex Pattern: /^[A-Za-z0-9]{5,12}$/
+2. Password Validation
+Criteria:
+At least one uppercase letter.
+At least one lowercase letter.
+At least one number.
+At least one special character (e.g., !@#$%^&*).
+Length: between 8 and 20 characters.
+Regex Pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/
+3. Email Address Validation
+Criteria:
+Standard email format (e.g., user@example.com).
+Regex Pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+4. Phone Number Validation
+Criteria:
+Formats: (123) 456-7890, 123-456-7890, 123.456.7890, 1234567890.
+10 digits.
+Regex Pattern: /^(\(\d{3}\)|\d{3})[-. ]?\d{3}[-. ]?\d{4}$/
+Assignment Tasks
+Create a HTML Form: Include fields for username, password, email address, and phone number.
+Write JavaScript Validation Functions: For each field, write a function that uses the provided regex pattern to validate the field's input.
+Display Validation Results: If the input is invalid, display a message next to the field indicating what is wrong. If the input is valid, you may display a success message or simply accept the input.
+Test Your Form: Ensure that your validation works by testing various inputs for each field.
+---Good luck, and remember that practice is key to mastering regular expressions! -->
